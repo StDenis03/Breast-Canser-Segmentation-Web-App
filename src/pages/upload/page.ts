@@ -1,13 +1,12 @@
-import './style.css';
+import style from './style.module.css';
 
 export default function (root: HTMLElement) {
-  const section = document.createElement('div');
+  const section = document.createElement('section');
+  section.className = style.center;
   section.innerHTML =  `
-  <section id="center">
     <div>
       <h1>Hello, World!</h1>
       <p>Initial load</p>
-    </div>
-  </section>`;
+    </div>`;
   root.append(section);
 }
