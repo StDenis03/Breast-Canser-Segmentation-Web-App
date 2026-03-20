@@ -1,14 +1,13 @@
-import './page.css';
+import './style.css';
 
-const appContainer = document.getElementById('app')!;
-
-appContainer.innerHTML = `
-<section id="center">
-  <div>
-    <h1>Hello, World!</h1>
-    <p>Initial load</p>
-  </div>
-</section>
-`;
-
-document.body.append(appContainer);
+export default function (root: HTMLElement) {
+  const section = document.createElement('div');
+  section.innerHTML =  `
+  <section id="center">
+    <div>
+      <h1>Hello, World!</h1>
+      <p>Initial load</p>
+    </div>
+  </section>`;
+  root.append(section);
+}
