@@ -1,3 +1,22 @@
+:root {
+  --color-text-main: rgb(154, 154, 154);
+  --color-border-light: rgb(224, 224, 224);
+  
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  
+  --radius-card: 24px;
+  --radius-inner: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-main: rgb(255, 255, 255);
+    --color-border-light: rgb(222, 219, 219);
+  }
+}
+
 .center {
   display: flex;
   flex-direction: column;
@@ -9,4 +28,42 @@
     padding: 32px 20px 24px;
     gap: 18px;
   }
+}
+
+.uploadWrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.glassCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  padding: 30px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 20px 50px var(--glass-shadow);
+}
+
+.title {
+  margin-bottom: 60px;
+  color: var(--color-text-main);
+}
+
+:global(.uppy-Dashboard-inner) {
+  background: transparent !important;
+  border-radius: var(--radius-inner) !important;
+  border-color: var(--color-border-light) !important;
+}
+
+:global(.uppy-Dashboard-AddFiles) {
+  border: none !important;
+}
+
+:global(.uppy-Dashboard-AddFiles-title) {
+  color: var(--color-text-main) !important;
 }
