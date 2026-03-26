@@ -1,3 +1,5 @@
+import { t } from "@/shared/i18n";
+
 const pages = import.meta.glob('@/pages/**/page.ts');
 
 const root = document.getElementById('app');
@@ -21,10 +23,10 @@ export async function initRouter () {
                 mod.default(root);
             } catch (error) {
                 console.error(`Error loading page: ${error}`);
-                root.innerHTML = '<h1>Failed to load page content.</h1>';
+                root.innerHTML = `<h1>${t('content-load-failed')}</h1>`;
             }
         } else {
-            root.innerHTML = '<h1>404 Page not found</h1>';
+            root.innerHTML = `<h1>404 ${t('page-not-found')}</h1>`;
         }
     };
 
