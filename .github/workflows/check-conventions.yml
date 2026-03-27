@@ -16,7 +16,7 @@ jobs:
       - name: Проверить имя ветки
         shell: bash
         env:
-          BRANCH_NAME: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
           echo "Проверяем ветку: $BRANCH_NAME"
 
