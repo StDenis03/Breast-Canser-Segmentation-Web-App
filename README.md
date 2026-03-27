@@ -53,7 +53,7 @@
 4.  **Краткость**: до 72 символов в первой строке
 
 ### Pull Request
-`<тип>(<область>): <описание>`
+`<тип>/<область>: <описание>`
 - Типы: feat, fix, style, refactor, chore
 - Области: analysis, backend, frontend, devops, docs, deps, test, core
 - Пример: `feat(backend): обучение CNN модели`
