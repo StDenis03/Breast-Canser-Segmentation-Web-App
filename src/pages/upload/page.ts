@@ -9,7 +9,9 @@ import { currentLocale } from '@/shared/i18n';
 import { t } from '@/shared/i18n';
 
 import Dashboard from '@uppy/dashboard';
-import styles from './style.module.css';
+import styles from './page.module.css';
+
+import { uploadContainerHTML } from '@/features/upload';
 
 import '@uppy/core/css/style.min.css';
 import '@uppy/dashboard/css/style.min.css';
@@ -22,7 +24,7 @@ const uppyLocales: Record<string, any> = {
   'zh': Chinese
 };
 
-const allowedFileTypes = ['dcm', 'dic', 'dicom'];
+const allowedFileTypes = ['.dcm', '.dic', '.dicom'];
 
 if (!uppyLocales[currentLocale]) {
   console.warn(`Uppy translations for '${currentLocale}' locale not found.`);
@@ -31,10 +33,7 @@ if (!uppyLocales[currentLocale]) {
 export default function render(container: HTMLElement) {
     container.innerHTML = `
       <section class="${styles.uploadWrapper}">
-          <div class="${styles.glassCard}">
-              <h1 class="${styles.title}">${t('upload-file')}</h1>
-              <div id="dashboard"></div>
-          </div>
+        ${uploadContainerHTML}
       </section>
     `;
 
