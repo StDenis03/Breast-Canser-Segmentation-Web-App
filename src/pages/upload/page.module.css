@@ -1,0 +1,39 @@
+:root {
+  --color-text-main: rgb(154, 154, 154);
+  --color-border-light: rgb(224, 224, 224);
+  
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  
+  --radius-card: 24px;
+  --radius-inner: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-main: rgb(255, 255, 255);
+    --color-border-light: rgb(222, 219, 219);
+  }
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+.uploadWrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
