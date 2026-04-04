@@ -6,7 +6,7 @@ on:
       - main
       - develop
   pull_request:
-    types: [ opened, edited, synchronize ]
+    types: [opened, edited, synchronize]
 
 jobs:
   check-branch-name:
@@ -14,22 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Проверить имя ветки
+        shell: bash
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "Проверяем ветку: $BRANCH_NAME"
-          
-          if [[ ! "$BRANCH_NAME" =~ ^(feature|bugfix)/(analysis|backend|frontend|devops|docs|deps|test|core)-.+$|^release/.+$|^hotfix/.+$ ]]; then
+
+          if [[ ! "$BRANCH_NAME" =~ ^((feature|bugfix)/(analysis|backend|frontend|devops|docs|deps|test|core)-.+|(release|hotfix)/.+)$ ]]; then
             echo "❌ Ошибка: Неправильный формат названия временной ветки"
-            echo "Формат: <временная_ветка>/<область>-<описание>"
-            echo "Временные_ветки: feature, bugfix, hotfix, release"
+            echo "Формат: <тип>/<область>-<описание> или <тип>/<описание>"
+            echo "Типы: feature, bugfix, hotfix, release"
             echo "Области: analysis, backend, frontend, devops, docs, deps, test, core"
-            echo "Пример: features/analysis-train-model"
-            echo ""
-            echo "Обратите внимание! После «:» обязателен пробел"
-            echo "• После префикса обязателен слеш /"
-            echo "• После области обязателен дефис -"
-            echo "• Описание должно содержать хотя бы один символ"
-            echo ""
+            echo "Примеры:"
+            echo "  feature/backend-add-upload-endpoint"
+            echo "  bugfix/frontend-fix-modal-close"
+            echo "  release/v1.2.0"
+            echo "  hotfix/critical-auth-error"
             exit 1
           else
             echo "✅ Название ветки корректно"
@@ -41,21 +41,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Проверить название PR
+        shell: bash
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
           echo "Проверяем название PR: $PR_TITLE"
-          
-          if [[ ! "$PR_TITLE" =~ ^(feat|fix|style|refactor|chore)\((analysis|backend|frontend|devops|docs|deps|test|core)\):\ .+$ ]]; then
+
+          if [[ ! "$PR_TITLE" =~ ^(feat|fix|style|refactor|chore)/(analysis|backend|frontend|devops|docs|deps|test|core):\ .+$ ]]; then
             echo "❌ Ошибка: Неправильный формат названия PR"
-            echo "Формат: <тип>(<область>): <описание>"
+            echo "Формат: <тип>/<область>: <описание>"
             echo "Типы: feat, fix, style, refactor, chore"
-            echo "Область: analysis, backend, frontend, devops, docs, deps, test, core"
-            echo "Пример: feat(analysis): обучение CNN модели"
-            echo ""
-            echo "Обратите внимание!"
-            echo "• После «:» обязателен пробел"
-            echo "• Описание должно содержать хотя бы один символ"
-            echo ""
+            echo "Области: analysis, backend, frontend, devops, docs, deps, test, core"
+            echo "Пример: feat/backend: add FastAPI DICOM upload endpoints"
             exit 1
           else
             echo "✅ Название PR корректно"
