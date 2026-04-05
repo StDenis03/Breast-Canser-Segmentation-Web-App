@@ -4,6 +4,7 @@ import German from '@uppy/locales/lib/de_DE';
 import French from '@uppy/locales/lib/fr_FR';
 import Russian from '@uppy/locales/lib/ru_RU';
 import Chinese from '@uppy/locales/lib/zh_CN';
+import English from '@uppy/locales/lib/en_US';
 
 import { currentLocale } from '@/shared/i18n';
 import { t } from '@/shared/i18n';
@@ -21,7 +22,8 @@ const uppyLocales: Record<string, any> = {
   'fr': French,
   'de': German,
   'ru': Russian,
-  'zh': Chinese
+  'zh': Chinese,
+  'en': English
 };
 
 const allowedFileTypes = ['.dcm', '.dic', '.dicom'];
