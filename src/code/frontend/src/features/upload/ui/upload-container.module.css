@@ -27,3 +27,7 @@
 :global(.uppy-Dashboard-AddFiles-title) {
   color: var(--color-text-main) !important;
 }
+
+:global(.uppy-Dashboard-innerWrap) {
+  border-radius: 15px !important;
+}
