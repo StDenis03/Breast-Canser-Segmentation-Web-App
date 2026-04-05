@@ -25,6 +25,6 @@ export default function render(container: HTMLElement) {
     height: 350,
     proudlyDisplayPoweredByUppy: false,
     note: `${t('allowed-file-types')}: ${allowedFileTypes.join(', ')}`,
-    theme: 'dark'
+    theme: 'auto'
   });
 }
