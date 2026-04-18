@@ -18,6 +18,7 @@ export async function initRouter () {
 
         if (pages[pageKey]) {
             try {
+                // eslint-disable-next-line no-unused-vars
                 const mod = await pages[pageKey]() as { default: (el: HTMLElement) => void };
                 root.innerHTML = '';
                 mod.default(root);
