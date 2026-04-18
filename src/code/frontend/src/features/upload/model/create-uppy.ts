@@ -8,8 +8,9 @@ import Chinese from '@uppy/locales/lib/zh_CN';
 import English from '@uppy/locales/lib/en_US';
 
 import { currentLocale } from '@/shared/i18n';
+import type { Locale } from '@uppy/utils';
 
-const uppyLocales: Record<string, any> = {
+const uppyLocales: Record<string, Locale> = {
   fr: French,
   de: German,
   ru: Russian,
