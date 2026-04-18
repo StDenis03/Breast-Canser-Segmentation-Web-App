@@ -4,10 +4,16 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.core.config import settings
 from app.db.database import db
 from app.services.inference import run_inference
+from pydantic import BaseModel
+
+class UploadResponse(BaseModel):
+    study_id: int
+    status: str
+    message: str
 
 router = APIRouter(prefix="/upload", tags=["upload"])
 
-@router.post("/")
+@router.post("/", response_model=UploadResponse)
 async def upload_dicom(file: UploadFile = File(...)):
     # 1. Валидация
     if not file.filename.endswith('.dcm'):
