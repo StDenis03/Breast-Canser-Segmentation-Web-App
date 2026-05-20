@@ -1,11 +1,11 @@
 :root {
   --color-text-main: rgb(154, 154, 154);
   --color-border-light: rgb(224, 224, 224);
-  
+
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: rgba(0, 0, 0, 0.3);
-  
+
   --radius-card: 24px;
   --radius-inner: 16px;
 }
@@ -36,4 +36,189 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+}
+
+.glassCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  max-width: 600px;
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
+
+.statusContainer {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-inner);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Status icon (completed / failed) */
+.statusIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.statusIconCompleted {
+  background: rgba(34, 197, 94, 0.15);
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+}
+
+.statusIconFailed {
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.statusText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  min-height: 1.6em;
+}
+
+.statusSub {
+  font-size: 0.82rem;
+  color: rgba(154, 154, 154, 0.7);
+  letter-spacing: 0.03em;
+}
+
+.statusSub strong {
+  color: rgba(200, 200, 200, 0.85);
+  font-weight: 600;
+}
+
+/* Ring spinner */
+.ring {
+  width: 56px;
+  height: 56px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid rgba(99, 102, 241, 0.15);
+}
+
+.ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #818cf8;
+  animation: spin 0.9s linear infinite;
+}
+
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* Phrase fade transitions */
+.phraseExit {
+  animation: phraseOut 0.25s ease forwards;
+}
+
+.phraseEnter {
+  animation: phraseIn 0.4s ease forwards;
+}
+
+@keyframes phraseOut {
+  to { opacity: 0; transform: translateY(-6px); }
+}
+
+@keyframes phraseIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Action buttons */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
+}
+
+.button {
+  padding: 0.85rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-inner);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.buttonDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.buttonDisabled:hover {
+  transform: none;
+  box-shadow: none;
 }

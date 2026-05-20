@@ -1,13 +1,31 @@
 from pathlib import Path
-import numpy as np
-from PIL import Image
+import httpx
+from app.core.config import settings
+import os
 
-def run_inference(dicom_path: Path, output_path: Path) -> Path:
-    #Заглушка модели сегментации.
+async def run_inference(dicom_path: Path, output_path: Path) -> Path:
+    """Отправляет DICOM на ML service и получает результат."""
 
-    # Создаём случайную маску 512x512
-    mask = np.random.randint(0, 255, (512, 512), dtype=np.uint8)
-    img = Image.fromarray(mask)
-    img.save(output_path)
-    
-    return output_path
+    ml_service_url = settings.LHUNET_URL.replace('/predict', '')
+    token = os.getenv('LTS_TOKEN', 'change-me')
+
+    try:
+        with open(dicom_path, 'rb') as f:
+            file_data = f.read()
+
+        async with httpx.AsyncClient(timeout=300.0) as client:
+            response = await client.post(
+                f"{ml_service_url}/predict",
+                files={'file': (dicom_path.name, file_data, 'application/octet-stream')},
+                data={'model': 'v2'},
+                headers={'Authorization': f'Bearer {token}'}
+            )
+            response.raise_for_status()
+
+        with open(output_path, 'wb') as out:
+            out.write(response.content)
+
+        return output_path
+
+    except Exception as e:
+        raise Exception(f"ML inference failed: {str(e)}")

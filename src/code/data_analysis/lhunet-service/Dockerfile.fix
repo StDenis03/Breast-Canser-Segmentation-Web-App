@@ -1,0 +1,38 @@
+FROM lhunet-service-lhunet:latest
+
+# Downgrade to torch 2.5.0+cu124 — the exact version D3D was compiled against
+# (D3D uses old GCC ABI; torch >=2.6 switched to new ABI, breaking the extension)
+RUN pip install --no-cache-dir \
+    torch==2.5.0 \
+    torchvision==0.20.0 \
+    torchaudio==2.5.0 \
+    --index-url https://download.pytorch.org/whl/cu124
+
+# Install nnUNet CLI without upgrading torch (--no-deps prevents torch upgrade)
+RUN pip install --no-cache-dir --no-deps -e /opt/LHUNet/nnUNet
+
+# Install nnUNet's non-torch dependencies
+RUN pip install --no-cache-dir \
+    "acvl-utils>=0.2.6,<0.3" \
+    "dynamic-network-architectures>=0.4.1,<0.5" \
+    tqdm scipy \
+    "batchgenerators>=0.25.1" \
+    scikit-learn \
+    "scikit-image>=0.19.3" \
+    "SimpleITK>=2.2.1" \
+    pandas graphviz tifffile requests nibabel \
+    matplotlib seaborn imagecodecs yacs \
+    "batchgeneratorsv2>=0.3.2" \
+    einops "blosc2>=3.0.0b1"
+
+# Install fvcore and monai (same versions as env_creation.sh)
+RUN pip install --no-cache-dir fvcore "monai==1.4"
+
+# Add pre-compiled D3D extension (built against torch 2.5.0+cu124) to Python path
+RUN echo '/opt/LHUNet/dcn/build/lib.linux-x86_64-cpython-312' \
+    > /usr/local/lib/python3.12/site-packages/d3d.pth
+
+# Register torch shared libraries so the dynamic linker finds libc10.so etc.
+RUN echo '/usr/local/lib/python3.12/site-packages/torch/lib' \
+    > /etc/ld.so.conf.d/torch.conf \
+    && ldconfig
