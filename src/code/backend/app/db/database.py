@@ -13,17 +13,19 @@ class Database:
             conn.execute("""CREATE TABLE IF NOT EXISTS studies (id INTEGER PRIMARY KEY AUTOINCREMENT,
                          filename TEXT NOT NULL, 
                          dicom_path TEXT NOT NULL,
-                         png_path TEXT,
+                         result_path TEXT,
                          status TEXT DEFAULT 'pending',
                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)""")
     
     @contextmanager
     def get_connection(self):
-        #Возвращает соединение с БД
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         try:
             yield conn
+        except Exception:
+            conn.rollback()
+            raise
         finally:
             conn.close()
 

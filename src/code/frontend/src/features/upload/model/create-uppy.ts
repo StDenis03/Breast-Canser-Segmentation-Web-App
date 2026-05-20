@@ -18,7 +18,7 @@ const uppyLocales: Record<string, Locale> = {
   en: English
 };
 
-const allowedFileTypes = ['.dcm', '.dic', '.dicom'];
+const allowedFileTypes = ['.dcm', '.nii', '.gz'];
 
 export function createUploadUppy() {
   if (!uppyLocales[currentLocale]) {
@@ -32,7 +32,7 @@ export function createUploadUppy() {
       allowedFileTypes
     },
   }).use(XHRUpload, {
-    endpoint: '/api/upload',
+    endpoint: '/api/v1/upload/',
     fieldName: 'file',
     formData: true
   });

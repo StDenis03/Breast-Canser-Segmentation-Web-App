@@ -1,0 +1,16 @@
+services:
+  lhunet:
+    build: .
+    container_name: lhunet-inference
+    environment:
+      HOST: ${HOST}
+      PORT: ${PORT}
+      LTS_TOKEN: ${LTS_TOKEN}
+      DEFAULT_MODEL: ${DEFAULT_MODEL}
+      DATASET_ID: ${DATASET_ID}
+      CONFIGURATION: ${CONFIGURATION}
+      MODEL_DIR: /opt/service/models/lhunet_breastct
+      nnUNet_extTrainer: /opt/LHUNet/src
+    ports:
+      - "${PORT}:${PORT}"
+    restart: unless-stopped

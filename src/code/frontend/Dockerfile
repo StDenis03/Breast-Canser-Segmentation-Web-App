@@ -1,11 +1,22 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
+
 WORKDIR /src/app
+
+# Устанавливаем nginx
+RUN apk add --no-cache nginx
+
+# Копируем зависимости и исходники
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build
-FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /src/app/dist /usr/share/nginx/html
+
+# Копируем конфигурацию как ГЛАВНЫЙ файл nginx в корень конфигурации
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /run/nginx
+
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Сборка при старте, копирование в dist и запуск nginx с явным указанием кастомного конфига
+CMD npm run build && \
+    cp -r /src/app/dist/* /usr/share/nginx/html/ && \
+    nginx -g "daemon off;" -c /etc/nginx/nginx.conf

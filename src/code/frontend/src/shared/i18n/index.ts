@@ -9,11 +9,11 @@ export const currentLocale: Locale = navigator.language.split('-')[0] as Locale 
  * button.textContent = t('example-translation', { param: 'Example' });
  */
 export function t (key: LocaleKey, params?: Record<string, string>) {
-    const text = locales[currentLocale][key] || (key as string);
+    let text: string = locales[currentLocale][key] || (key as string);
 
     if (params) {
         Object.entries(params).forEach(([k, v]) => {
-            text.replace(`{{${k}}`, v);
+            text = text.replace(`{{${k}}}`, v);
         })
     }
 

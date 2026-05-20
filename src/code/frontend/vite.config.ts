@@ -3,7 +3,7 @@ import { heyApiPlugin } from "@hey-api/vite-plugin";
 import path from "path";
 
 export default defineConfig(({ mode }) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  process.env = { ...loadEnv(mode, process.cwd()), ...process.env };
 
   return {
     resolve: {

@@ -4,6 +4,16 @@
   --bg: #fff;
   --border: #e5e4e7;
 
+  --color-text-main: rgb(154, 154, 154);
+  --color-border-light: rgb(224, 224, 224);
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+
+  --radius-card: 24px;
+  --radius-inner: 16px;
+
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
 
@@ -28,6 +38,8 @@
     --text-h: #f3f4f6;
     --bg: #16171d;
     --border: #2e303a;
+    --color-text-main: rgb(255, 255, 255);
+    --color-border-light: rgb(222, 219, 219);
   }
 }
 

@@ -1,0 +1,60 @@
+services:
+  lhunet-inference:
+    build:
+      context: ./src/code/data_analysis/lhunet-service
+      dockerfile: Dockerfile.fix
+    container_name: lhunet-inference
+    ports:
+      - "8000:8000"
+    environment:
+      - LTS_TOKEN=change-me
+      - DEFAULT_MODEL=v2
+      - TORCH_LIB_PATH=/usr/local/lib/python3.12/site-packages/torch/lib
+    shm_size: '4gb'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  backend:
+    build: ./src/code/backend
+    container_name: backend
+    ports:
+      - "8081:8000" 
+    environment:
+      - LHUNET_URL=http://lhunet-inference:8000/predict
+    depends_on:
+      - lhunet-inference
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/openapi.json', timeout=2)"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+
+  frontend:
+    build: ./src/code/frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - VITE_BACKEND_URL=http://backend:8000
+    volumes:
+      - frontend_dist:/usr/share/nginx/html
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  frontend_dist:
